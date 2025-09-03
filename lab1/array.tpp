@@ -16,6 +16,16 @@ Array<T>::Array(int len, T *items){
 }
 
 template <typename T>
+void Array<T>::resizeArray(int newLen, T *newItems){
+    this->length = newLen;
+    delete this->items;
+    this->items = new T[this->length];
+    for(int i = 0; i < length; ++i){
+        this->items[i]=newItems[i];
+    }
+}
+
+template <typename T>
 void Array<T>::printArray(){
     for(int i = 0; i < length; ++i){
         std::cout << items[i] << std::endl;
