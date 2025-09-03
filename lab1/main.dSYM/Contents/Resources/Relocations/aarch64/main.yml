@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/kholo/Documents/Programming/university/C/OOP/lab1/main'
+relocations:     []
+...
