@@ -6,6 +6,7 @@ class Array{
     private:
         int length = 0;
         T *items;
+        int it_point = 0;
     public:
         Array(){
             length = 0;
@@ -32,4 +33,16 @@ class Array{
                 std::cout << items[i] << std::endl;
             }
         }
+
+        template <typename U>
+        friend std::ostream &operator<< (std::ostream &out, const Array<U> &array);
+
 };
+
+template <typename U>
+std::ostream &operator<< (std::ostream &out, const Array<U> &array){
+    for(int i = 0; i < array.length; ++i){
+        out << array.items[i] << " ";
+    }
+    return out;
+}
