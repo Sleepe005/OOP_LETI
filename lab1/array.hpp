@@ -32,7 +32,16 @@ public:
             ++it_point;
         }
     }
-//заменила две резаписи на одну с копированием старых значений
+
+    int getArrayMaxLength(){
+        return length;
+    }
+
+    int getArrayItemsCount(){
+        return it_point;
+    }
+
+    //заменила две резаписи на одну с копированием старых значений
     void resizeArray(int newLen) {
         T *newSizeArray = new T[newLen];
         for (int i = 0; i < length; ++i) {
@@ -54,7 +63,7 @@ public:
         ++it_point;
     }
 
-//ско
+    //ско
     int arrayAverage() {
         int aver = 0;
         if (length != 0) {
