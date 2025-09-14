@@ -48,8 +48,9 @@ public:
             newSizeArray[i] = this->items[i];
         }
         delete this->items;
+
         this->items = newSizeArray;
-        // this->length = newLen;
+        this->length = newLen;
     }
 
     void printArray() {
@@ -61,6 +62,10 @@ public:
     void addItem(T item) {
         *(items + it_point) = item;
         ++it_point;
+    }
+
+    void changeItem(int itemIndex, T newItem){
+        this->items[itemIndex] = newItem;
     }
 
     //ско
@@ -86,7 +91,7 @@ public:
         return averSqrt;
     }
 
-//сортировка
+    //сортировка
     void sortMinToMax() {
         std::sort(this->items, this->items+this->length); 
     }
@@ -113,8 +118,12 @@ std::ostream& operator<< (std::ostream& out, const Array<U>& array) {
 template <typename U>
 std::istream& operator>>(std::istream& in, Array<U>& array) {
     U it;
-    while (in >> it) {
+    int maxWrite = array.getArrayMaxLength() - array.getArrayItemsCount();
+    for(int i = 0; i < maxWrite; ++i){
+        std::cin >> it;
         array.addItem(it);
     }
+    // in.clear();
+    // in.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // очищаем остаток строки
     return in;
 }
