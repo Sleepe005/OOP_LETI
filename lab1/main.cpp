@@ -18,16 +18,16 @@ int main(){
 
     
     std::cout << "длина массива ";
-    std::cin >> n;
+    std::cin >> len;
     
     if (!std::cin || n <= 0) {
         std::cout << "отрицательная длина\n";
         return 1;
     }
-    
+    Array<int> arr(len)
     //ввод данных
     int count = 0;
-    while (count < length) {
+    while (count < len) {
         int value;
         std::cin >> value;
     
