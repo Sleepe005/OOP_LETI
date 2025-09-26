@@ -4,9 +4,10 @@
 
 int main(){
     Application app;
+    Array arr(3);
 
     // bool work = true;
-    while(app.printMenu());
+    while(app.printMenu(arr));
     
     return 0;
 }
