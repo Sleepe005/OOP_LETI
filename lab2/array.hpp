@@ -1,0 +1,129 @@
+#pragma once
+#include <iostream>
+#include <algorithm>  //для сортировки
+#include <cmath>
+
+
+template <typename T>
+class Array {
+private:
+    int length = 0; // длина массива
+    T* items;
+    int it_point = 0; // количество элементов в массиве
+public:
+    Array() {
+        items = nullptr;
+    }
+    ~Array() {
+        delete[] this->items;
+        // delete this->length;
+    }
+
+    Array(int len) {
+        this->length = len;
+        this->items = new T[this->length];
+    }
+
+    Array(int len, T* items) {
+        this->length = len;
+        this->items = new T[this->length];
+        for (int i = 0; i < length; ++i) {
+            this->items[i] = items[i];
+            ++it_point;
+        }
+    }
+
+    int getArrayMaxLength(){
+        return length;
+    }
+
+    int getArrayItemsCount(){
+        return it_point;
+    }
+
+    //заменила две резаписи на одну с копированием старых значений
+    void resizeArray(int newLen) {
+        T *newSizeArray = new T[newLen];
+        for (int i = 0; i < length; ++i) {
+            newSizeArray[i] = this->items[i];
+        }
+        delete this->items;
+
+        this->items = newSizeArray;
+        this->length = newLen;
+    }
+
+    void printArray() {
+        for (int i = 0; i < length; ++i) {
+            std::cout << items[i] << std::endl;
+        }
+    }
+
+    void addItem(T item) {
+        *(items + it_point) = item;
+        ++it_point;
+    }
+
+    void changeItem(int itemIndex, T newItem){
+        this->items[itemIndex] = newItem;
+    }
+
+    //ско
+    int arrayAverage() {
+        int aver = 0;
+        if (length != 0) {
+            for (int i = 0; i < length; i++) {
+                aver += this->items[i];
+            }
+            aver /= this->length;
+        }
+        return aver;
+    }
+
+    int arrayAverageSqrt() {
+        int averSqrt = 0;
+        if (length != 0) {
+            for (int i = 0; i < length; i++) {
+                averSqrt += std::pow((this->items[i] - arrayAverage()),2);
+            }
+            averSqrt = sqrt(averSqrt / this->length);
+        }
+        return averSqrt;
+    }
+
+    //сортировка
+    void sortMinToMax() {
+        std::sort(this->items, this->items+this->length); 
+    }
+    
+    void sortMaxToMin() {
+        std::sort(this->items, this->items+this->length, std::greater<T>());
+    }
+
+    template <typename U>
+    friend std::ostream& operator<< (std::ostream& out, const Array<U>& array);
+
+    template <typename U>
+    friend std::istream& operator>> (std::istream& in, Array<U>& array);
+};
+
+template <typename U>
+std::ostream& operator<< (std::ostream& out, const Array<U>& array) {
+    for (int i = 0; i < array.length; ++i) {
+        out << array.items[i] << " ";
+    }
+    return out;
+}
+
+template <typename U>
+std::istream& operator>>(std::istream& in, Array<U>& array) {
+    U it;
+    int maxWrite = array.getArrayMaxLength() - array.getArrayItemsCount();
+    for(int i = 0; i < maxWrite; ++i){
+        std::cin >> it;
+        array.addItem(it);
+    }
+    // in.clear();
+    // in.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // очищаем остаток строки
+    return in;
+}
