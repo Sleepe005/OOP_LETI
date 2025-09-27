@@ -1,13 +1,11 @@
-// #include "array.hpp"
 #include "application.hpp"
 #include <iostream>
+#include <windows.h>
 
-int main(){
+int main() {
     Application app;
-    Array arr(3);
+    Array arr(3);  
 
-    // bool work = true;
-    while(app.printMenu(arr));
-    
+    while (app.printMenu(arr)); 
     return 0;
 }
