@@ -4,7 +4,7 @@
 #include <cmath>
 #include "tcomplex.hpp"
 
-typedef TComplex number;
+typedef tcomplex number;
 
 class Array {
 private:
