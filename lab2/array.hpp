@@ -1,56 +1,58 @@
 #pragma once
 #include <iostream>
-#include <algorithm>  //для сортировки
+#include <algorithm>
 #include <cmath>
+#include "TComplex.hpp"
 
+typedef TComplex number;
 
-template <typename T>
 class Array {
 private:
-    int length = 0; // длина массива
-    T* items;
-    int it_point = 0; // количество элементов в массиве
+    int length = 0;
+    number* items;
+    int it_point = 0;
+
 public:
     Array() {
         items = nullptr;
     }
+
     ~Array() {
         delete[] this->items;
-        // delete this->length;
     }
 
     Array(int len) {
         this->length = len;
-        this->items = new T[this->length];
+        this->items = new number[this->length];
     }
 
-    Array(int len, T* items) {
+    Array(int len, number* items) {
         this->length = len;
-        this->items = new T[this->length];
+        this->items = new number[this->length];
         for (int i = 0; i < length; ++i) {
             this->items[i] = items[i];
             ++it_point;
         }
     }
 
-    int getArrayMaxLength(){
+    int getArrayMaxLength() {
         return length;
     }
 
-    int getArrayItemsCount(){
+    int getArrayItemsCount() {
         return it_point;
     }
 
-    //заменила две резаписи на одну с копированием старых значений
     void resizeArray(int newLen) {
-        T *newSizeArray = new T[newLen];
-        for (int i = 0; i < length; ++i) {
+        number* newSizeArray = new number[newLen];
+        for (int i = 0; i < length && i < newLen; ++i) {
             newSizeArray[i] = this->items[i];
         }
-        delete this->items;
+        delete[] this->items;
 
         this->items = newSizeArray;
         this->length = newLen;
+        if (it_point > newLen) it_point = newLen;
     }
 
     void printArray() {
@@ -59,71 +61,76 @@ public:
         }
     }
 
-    void addItem(T item) {
-        *(items + it_point) = item;
-        ++it_point;
-    }
-
-    void changeItem(int itemIndex, T newItem){
-        this->items[itemIndex] = newItem;
-    }
-
-    //ско
-    int arrayAverage() {
-        int aver = 0;
-        if (length != 0) {
-            for (int i = 0; i < length; i++) {
-                aver += this->items[i];
-            }
-            aver /= this->length;
+    void addItem(number item) {
+        if (it_point < length) {
+            items[it_point] = item;
+            ++it_point;
         }
-        return aver;
     }
 
-    int arrayAverageSqrt() {
-        int averSqrt = 0;
-        if (length != 0) {
-            for (int i = 0; i < length; i++) {
-                averSqrt += std::pow((this->items[i] - arrayAverage()),2);
-            }
-            averSqrt = sqrt(averSqrt / this->length);
+    void changeItem(int itemIndex, number newItem) {
+        if (itemIndex >= 0 && itemIndex < it_point) {
+            this->items[itemIndex] = newItem;
         }
-        return averSqrt;
     }
 
-    //сортировка
+    // Среднее значение (возвращает комплексное число)
+    number arrayAverage() {
+        number sum(0, 0);
+        if (it_point != 0) {
+            for (int i = 0; i < it_point; i++) {
+                sum = sum + items[i];
+            }
+            return sum / (double)it_point;
+        }
+        return sum;
+    }
+
+    // Среднеквадратичное отклонение (возвращает double)
+    double arrayAverageSqrt() {
+        double result = 0.0;
+        if (it_point != 0) {
+            number avg = arrayAverage();
+            for (int i = 0; i < it_point; i++) {
+                number diff = items[i] - avg;
+                result += diff.magnitude() * diff.magnitude();
+            }
+            result = std::sqrt(result / it_point);
+        }
+        return result;
+    }
+
     void sortMinToMax() {
-        std::sort(this->items, this->items+this->length); 
+        std::sort(this->items, this->items + this->it_point,
+                  [](const number& a, const number& b) {
+                      return a.magnitude() < b.magnitude();
+                  });
     }
-    
+
     void sortMaxToMin() {
-        std::sort(this->items, this->items+this->length, std::greater<T>());
+        std::sort(this->items, this->items + this->it_point,
+                  [](const number& a, const number& b) {
+                      return a.magnitude() > b.magnitude();
+                  });
     }
 
-    template <typename U>
-    friend std::ostream& operator<< (std::ostream& out, const Array<U>& array);
-
-    template <typename U>
-    friend std::istream& operator>> (std::istream& in, Array<U>& array);
+    friend std::ostream& operator<<(std::ostream& out, const Array& array);
+    friend std::istream& operator>>(std::istream& in, Array& array);
 };
 
-template <typename U>
-std::ostream& operator<< (std::ostream& out, const Array<U>& array) {
-    for (int i = 0; i < array.length; ++i) {
+inline std::ostream& operator<<(std::ostream& out, const Array& array) {
+    for (int i = 0; i < array.it_point; ++i) {
         out << array.items[i] << " ";
     }
     return out;
 }
 
-template <typename U>
-std::istream& operator>>(std::istream& in, Array<U>& array) {
-    U it;
+inline std::istream& operator>>(std::istream& in, Array& array) {
+    number it;
     int maxWrite = array.getArrayMaxLength() - array.getArrayItemsCount();
-    for(int i = 0; i < maxWrite; ++i){
-        std::cin >> it;
+    for (int i = 0; i < maxWrite; ++i) {
+        if (!(in >> it)) break;
         array.addItem(it);
     }
-    // in.clear();
-    // in.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // очищаем остаток строки
     return in;
 }
