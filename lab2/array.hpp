@@ -2,7 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
-#include "TComplex.hpp"
+#include "tcomplex.hpp"
 
 typedef TComplex number;
 
