@@ -9,7 +9,7 @@ public:
         setlocale(LC_ALL, "");
     }
 
-    bool printMenu(Array<int>& arr) {   
+    bool printMenu(Array& arr) {
         system("cls");
         char menu[8][75] = {
             "1. Ввести значения массива",
@@ -18,7 +18,7 @@ public:
             "4. Отсортировать массив по убыванию",
             "5. Изменить размер массива",
             "6. Изменить выбранный элемент массива",
-            "7. Вывести элемента массива",
+            "7. Вывести элементы массива",
             "8. Выйти из приложения (ESC x2)",
         };
 
@@ -26,13 +26,14 @@ public:
             std::cout << menu[i] << std::endl;
         }
 
-        return menuNav(arr);   
+        return menuNav(arr);
     }
 
-
-    bool menuNav(Array<int>& arr) {
+private:
+    bool menuNav(Array& arr) {
         std::string input;
         std::getline(std::cin, input);
+        if (input.empty()) return true;
         char key = input[0];
         if (key == '1') {
             getItemsFromConsole(arr);
@@ -61,25 +62,25 @@ public:
         return true;
     }
 
-    void getItemsFromConsole(Array<int>& arr) {
+    void getItemsFromConsole(Array& arr) {
         system("cls");
         std::cout << "Максимальная длина массива: " << arr.getArrayMaxLength() << std::endl;
         std::cout << "Записано элементов: " << arr.getArrayItemsCount() << std::endl;
-        std::cout << "Введите элементы массива (CTRL+D в конце после ENTER)" << std::endl;
+        std::cout << "Введите элементы массива (для каждого — действительная и мнимая часть)" << std::endl;
         std::cin >> arr;
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 
-    void calculatesAveargeVals(Array<int>& arr) {
+    void calculatesAveargeVals(Array& arr) {
         system("cls");
         std::cout << "Среднее значение элементов массива: " << arr.arrayAverage() << std::endl;
         std::cout << "СКО элементов массива: " << arr.arrayAverageSqrt() << std::endl;
-        std::cout << "CTRL+D для выхода в меню";
+        std::cout << "ENTER для выхода в меню";
         std::cin.get();
     }
 
-    void sortMinToMax(Array<int>& arr) {
+    void sortMinToMax(Array& arr) {
         system("cls");
         arr.sortMinToMax();
         std::cout << "Массив отсортирван по возрастанию" << std::endl;
@@ -87,7 +88,7 @@ public:
         std::cin.get();
     }
 
-    void sortMaxToMin(Array<int>& arr) {
+    void sortMaxToMin(Array& arr) {
         system("cls");
         arr.sortMaxToMin();
         std::cout << "Массив отсортирван по убыванию" << std::endl;
@@ -95,7 +96,7 @@ public:
         std::cin.get();
     }
 
-    void resizeArray(Array<int>& arr) {
+    void resizeArray(Array& arr) {
         system("cls");
         std::cout << "Введите новый размер массива: ";
         int newLen;
@@ -103,29 +104,29 @@ public:
         arr.resizeArray(newLen);
     }
 
-    void changeItem(Array<int>& arr) {
+    void changeItem(Array& arr) {
         system("cls");
         if (arr.getArrayItemsCount() == 0) {
             std::cout << "Массив ещё пустой" << std::endl;
         }
         else {
-            std::cout << arr;
-            std::cout << "Выберите элемент массива: ";
+            std::cout << arr << std::endl;
+            std::cout << "Выберите индекс элемента массива: ";
             int index;
             std::cin >> index;
             if (index >= arr.getArrayItemsCount()) {
                 std::cout << "Такого элемента нет";
             }
             else {
-                std::cout << "Введите новый элемент массива: ";
-                int newItem;
+                std::cout << "Введите новый элемент массива (действительная и мнимая часть): ";
+                number newItem;
                 std::cin >> newItem;
                 arr.changeItem(index, newItem);
             }
         }
     }
 
-    void printArray(Array<int>& arr) {
+    void printArray(Array& arr) {
         system("cls");
         if (arr.getArrayItemsCount() == 0) {
             std::cout << "Массив пустой";
