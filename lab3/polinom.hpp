@@ -1,5 +1,5 @@
 #pragma once
-#include "array.hpp"
+// #include "array.hpp"
 #include "DynamicArray.hpp"
 
 typedef int number;
@@ -27,14 +27,14 @@ class Polinom{
             this->step = step;
             this->an = an;
             for(int i = 0; i < step; i++){
-                this->korni[i] = korni[i];
+                this->korni.pushBack(korni[i]);
             }
 
             mathKorniVal();
         }
 
         // копируем массива корней и массив, заданный пользователем
-        void getKorni(int *&korni){
+        const void getKorni(int *&korni){
             for(int i = 0; i < step; i++){
                 korni[i] = this->korni[i];
             }
@@ -50,4 +50,23 @@ class Polinom{
         }
 
         //TODO: перегрузка оператора ввода (рабтает на пустом полиноме)
+       friend std::ostream& operator<<(std::ostream& out, Polinom& polinom){
+            out << "p(x)=" << polinom.an;
+            for(int i = 0; i < polinom.step; i++){
+                out << "(x-" << polinom.korni[i] << ")"; 
+            }
+            out << std::endl;
+            return out;
+       }
 };
+
+// std::ostream& operator<<(std::ostream& out, const Polinom& polinom) {
+//     // int *pol_korni = new int[polinom.step];
+//     // polinom.getKorni(pol_korni);
+
+//     out << "p(x)=" << polinom.an;
+//     for(int i = 0; i < polinom.step; i++){
+//         out << "(x-" << polinom.korni[i] << ")"; 
+//     }
+//     return out;
+// }

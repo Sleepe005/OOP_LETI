@@ -121,7 +121,7 @@ class DynamicArray{
         // int& opeartor[](size_t index){
             
         // } 
-       T& operator[](size_t index){
+        T& operator[](size_t index){
             if(index > currentLength){throw "Error";}
             return array[index];
        }
