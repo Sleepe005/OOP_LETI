@@ -1,5 +1,4 @@
 #pragma once
-// #include "array.hpp"
 #include "DynamicArray.hpp"
 
 typedef int number;
@@ -8,9 +7,6 @@ class Polinom{
     private:
         int step = 0;
         int an = 0;
-        // Array korni{};
-        // Array korni_val{};
-
         DynamicArray<int> korni{};
         DynamicArray<int> korni_val{};
 
@@ -58,15 +54,18 @@ class Polinom{
             out << std::endl;
             return out;
        }
+
+       friend std::istream& operator>>(std::istream& in, Polinom& polinom){
+            in >> polinom.step;
+            in >> polinom.an;
+            for(int i = 0; i < polinom.step; i++){
+                int kor;
+                in >> kor;
+                polinom.korni.pushBack(kor);
+            }
+
+            polinom.mathKorniVal();
+
+            return in;
+       }
 };
-
-// std::ostream& operator<<(std::ostream& out, const Polinom& polinom) {
-//     // int *pol_korni = new int[polinom.step];
-//     // polinom.getKorni(pol_korni);
-
-//     out << "p(x)=" << polinom.an;
-//     for(int i = 0; i < polinom.step; i++){
-//         out << "(x-" << polinom.korni[i] << ")"; 
-//     }
-//     return out;
-// }
