@@ -10,7 +10,7 @@ public:
     }
 
     bool printMenu(Array& arr) {
-        system("cls");
+        system("clear");
         char menu[8][75] = {
             "1. Ввести значения массива",
             "2. Рассчтать среднее и СКО",
@@ -63,7 +63,7 @@ private:
     }
 
     void getItemsFromConsole(Array& arr) {
-        system("cls");
+        system("clear");
         std::cout << "Максимальная длина массива: " << arr.getArrayMaxLength() << std::endl;
         std::cout << "Записано элементов: " << arr.getArrayItemsCount() << std::endl;
         std::cout << "Введите элементы массива (для каждого — действительная и мнимая часть)" << std::endl;
@@ -73,7 +73,7 @@ private:
     }
 
     void calculatesAveargeVals(Array& arr) {
-        system("cls");
+        system("clear");
         std::cout << "Среднее значение элементов массива: " << arr.arrayAverage() << std::endl;
         std::cout << "СКО элементов массива: " << arr.arrayAverageSqrt() << std::endl;
         std::cout << "ENTER для выхода в меню";
@@ -81,7 +81,7 @@ private:
     }
 
     void sortMinToMax(Array& arr) {
-        system("cls");
+        system("clear");
         arr.sortMinToMax();
         std::cout << "Массив отсортирван по возрастанию" << std::endl;
         std::cout << arr;
@@ -89,7 +89,7 @@ private:
     }
 
     void sortMaxToMin(Array& arr) {
-        system("cls");
+        system("clear");
         arr.sortMaxToMin();
         std::cout << "Массив отсортирван по убыванию" << std::endl;
         std::cout << arr;
@@ -97,7 +97,7 @@ private:
     }
 
     void resizeArray(Array& arr) {
-        system("cls");
+        system("clear");
         std::cout << "Введите новый размер массива: ";
         int newLen;
         std::cin >> newLen;
@@ -105,7 +105,7 @@ private:
     }
 
     void changeItem(Array& arr) {
-        system("cls");
+        system("clear");
         if (arr.getArrayItemsCount() == 0) {
             std::cout << "Массив ещё пустой" << std::endl;
         }
@@ -127,7 +127,7 @@ private:
     }
 
     void printArray(Array& arr) {
-        system("cls");
+        system("clear");
         if (arr.getArrayItemsCount() == 0) {
             std::cout << "Массив пустой";
         }
