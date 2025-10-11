@@ -75,45 +75,48 @@ public:
     }
 
     // Среднее значение (возвращает комплексное число)
-    number arrayAverage() {
-        number sum(0, 0);
-        if (it_point != 0) {
-            for (int i = 0; i < it_point; i++) {
-                sum = sum + items[i];
-            }
-            return sum / (double)it_point;
-        }
-        return sum;
-    }
+    // number arrayAverage() {
+    //     number sum(0, 0);
+    //     if (it_point != 0) {
+    //         for (int i = 0; i < it_point; i++) {
+    //             sum = sum + items[i];
+    //         }
+    //         return sum / (double)it_point;
+    //     }
+    //     return sum;
+    // }
 
     // Среднеквадратичное отклонение (возвращает double)
-    double arrayAverageSqrt() {
-        double result = 0.0;
-        if (it_point != 0) {
-            number avg = arrayAverage();
-            for (int i = 0; i < it_point; i++) {
-                number diff = items[i] - avg;
-                result += diff.magnitude() * diff.magnitude();
-            }
-            result = std::sqrt(result / it_point);
-        }
-        return result;
-    }
+    // double arrayAverageSqrt() {
+    //     double result = 0.0;
+    //     if (it_point != 0) {
+    //         number avg = arrayAverage();
+    //         for (int i = 0; i < it_point; i++) {
+    //             number diff = items[i] - avg;
+    //             result += diff.magnitude() * diff.magnitude();
+    //         }
+    //         result = std::sqrt(result / it_point);
+    //     }
+    //     return result;
+    // }
 
-    void sortMinToMax() {
-        std::sort(this->items, this->items + this->it_point,
-                  [](const number& a, const number& b) {
-                      return a.magnitude() < b.magnitude();
-                  });
-    }
+    // void sortMinToMax() {
+    //     std::sort(this->items, this->items + this->it_point,
+    //               [](const number& a, const number& b) {
+    //                   return a.magnitude() < b.magnitude();
+    //               });
+    // }
 
-    void sortMaxToMin() {
-        std::sort(this->items, this->items + this->it_point,
-                  [](const number& a, const number& b) {
-                      return a.magnitude() > b.magnitude();
-                  });
-    }
-
+    // void sortMaxToMin() {
+    //     std::sort(this->items, this->items + this->it_point,
+    //               [](const number& a, const number& b) {
+    //                   return a.magnitude() > b.magnitude();
+    //               });
+    // }
+    number& operator[](size_t index){
+            if(index > it_point){throw "Error";}
+            return items[index];
+       }
     friend std::ostream& operator<<(std::ostream& out, const Array& array);
     friend std::istream& operator>>(std::istream& in, Array& array);
 };
