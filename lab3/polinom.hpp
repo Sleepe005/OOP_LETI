@@ -10,8 +10,6 @@ class Polinom{
         Array korni{};
         Array korni_val{};
 
-        
-
     public:
         Polinom(){};
 
@@ -51,10 +49,10 @@ class Polinom{
             return res;
         }
 
-        // void changePolinom(int index, int item){
-        //     if(index == 0){this->an = item;}
-        //     korni.
-        // }
+        void changePolinom(int index, int item){
+            if(index == 0){this->an = item;}
+            korni.changeItem(index-1, item);
+        }
 
        friend std::ostream& operator<<(std::ostream& out, Polinom& polinom){
             out << "p(x)=" << polinom.an;
