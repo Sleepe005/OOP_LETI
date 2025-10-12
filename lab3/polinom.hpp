@@ -1,63 +1,63 @@
 #pragma once
 #include "array.hpp"
 
-typedef int number;
+typedef TComplex number;
 
 class Polinom{
     private:
         int step = 0;
         int an = 0;
-        Array korni{};
-        Array korni_val{};
+        Array solutions{};
+        Array solutions_coef{};
 
     public:
         Polinom(){};
 
-        Polinom(int step, int an, int *korni){
+        Polinom(int step, int an, number *solutions){
             this->step = step;
             this->an = an;
 
-            this->korni.resizeArray(step);
-            this->korni_val.resizeArray(step);
+            this->solutions.resizeArray(step);
+            this->solutions_coef.resizeArray(step);
 
             for(int i = 0; i < step; i++){
-                this->korni.addItem(korni[i]);
+                this->solutions.addItem(solutions[i]);
             }
 
-            mathKorniVal();
+            calcSolutions_coef();
         }
 
-        void mathKorniVal(){
+        void calcSolutions_coef(){
             for(int i = 0; i < step; i++){
-                korni_val.addItem(korni[i]*an);
+                solutions_coef.addItem(solutions[i]*an);
             }
         }
 
         // копируем массива корней и массив, заданный пользователем
-        const void getKorni(int *&korni){
+        const void getSolutions(number *&solutions){
             for(int i = 0; i < step; i++){
-                korni[i] = this->korni[i];
+                solutions[i] = this->solutions[i];
             }
         }
 
         // вычисляем значения полинома в точке x
-        int calculatePolinom(int x){
-            int res = an;
+        number calculatePolinom(number x){
+            number res = an;
             for(int i = 0; i < step; i++){
-                res *= (x - korni[i]);
+                res = res * (x - solutions[i]);
             }
             return res;
         }
 
-        void changePolinom(int index, int item){
-            if(index == 0){this->an = item;}
-            korni.changeItem(index-1, item);
+        void changePolinom(int index, number item){
+            if(index == 0){this->an = item.real();}
+            solutions.changeItem(index-1, item);
         }
 
        friend std::ostream& operator<<(std::ostream& out, Polinom& polinom){
             out << "p(x)=" << polinom.an;
             for(int i = 0; i < polinom.step; i++){
-                out << "(x-" << polinom.korni[i] << ")"; 
+                out << "(x-" << polinom.solutions[i] << ")"; 
             }
             out << std::endl;
             return out;
@@ -66,15 +66,15 @@ class Polinom{
        friend std::istream& operator>>(std::istream& in, Polinom& polinom){
             in >> polinom.step;
             in >> polinom.an;
-            polinom.korni.resizeArray(polinom.step);
-            polinom.korni_val.resizeArray(polinom.step);
+            polinom.solutions.resizeArray(polinom.step);
+            polinom.solutions_coef.resizeArray(polinom.step);
             for(int i = 0; i < polinom.step; i++){
-                int kor;
+                number kor;
                 in >> kor;
-                polinom.korni.addItem(kor);
+                polinom.solutions.addItem(kor);
             }
 
-            polinom.mathKorniVal();
+            polinom.calcSolutions_coef();
 
             return in;
        }
