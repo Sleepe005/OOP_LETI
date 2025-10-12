@@ -59,6 +59,17 @@ public:
         return this->magnitude() > other.magnitude();
     }
 
+    // корень комплекс
+    TComplex sqrt() const {
+        double r = std::sqrt(re * re + im * im);
+        double x = std::sqrt((r + re) / 2.0);
+        double y = (im >= 0 ? 1 : -1) * std::sqrt((r - re) / 2.0);
+        return TComplex(x, y);
+    }
+    double sqrtMagnitude() const {
+        return std::sqrt(std::sqrt(re * re + im * im));
+    }
+
     // Потоковый ввод/вывод
     friend std::istream& operator>>(std::istream& in, TComplex& c) {
         std::cout << "Введите действительную и мнимую часть: ";
